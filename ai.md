@@ -40,6 +40,27 @@ transitionFactory就是管理变换状态的，其中重要的是判断状态切
 
 	function(status, entity_status, ...)
 
+#####3.2 EventFactory
+
+ai_move：主要是ai的各种move操作，函数原型
+
+	function(status, entity_status, ...)
+ai_skill: 各种skill操作，函数原型和上面一致。调用ai.lua里的doSkill。在这里可以看到，state中得maitain保存了需要进行施法攻击的对象
+
+			for _,v in pairs(target) do
+				state._maintain.targets[#state._maintain.targets + 1] = v
+				v:reciveDamage(damage)
+			end
+			
+			outputStatus(entity_status:getEntity(), target, stateId)
+			doSkill(state, entity_status, skillID)
+			
+先进行reciveDamage获取上海，然后接受到伤害的status，最后才发出doSkill的方法，这个具体过程需要看完game的几个manager后确定。
+
+entity_status:简单实现getter，不赘述。
+
+ai_status:一些持续的状态变换，比如在某一时间段增加攻击力，加血等。
+
 ##### 4.其他文件
 
 tools.lua为ai工具库，包括
